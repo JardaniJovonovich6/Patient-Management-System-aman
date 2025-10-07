@@ -1,0 +1,2 @@
+CREATE DATABASE db;
+CREATE DATABASE billing_db;
