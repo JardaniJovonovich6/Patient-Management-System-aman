@@ -22,8 +22,11 @@
     </properties>
 
     <modules>
+    <!-- V1 -->
         <module>patient-service</module>
         <module>billing-service</module>
+        <module>analytics-service</module>
+        <module>api-gateway</module>
     </modules>
 
 </project>

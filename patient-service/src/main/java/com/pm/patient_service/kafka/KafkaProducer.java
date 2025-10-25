@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.pm.patient_service.model.Patient;
 
+import patient.event.PatientEvent;
+
 @Service
 public class KafkaProducer {
     private static final Logger log = LoggerFactory.getLogger(KafkaProducer.class);

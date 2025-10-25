@@ -9,16 +9,56 @@ services:
       - "5433:5432"
     volumes:
       - patient-service-db-data:/var/lib/postgresql/data
-      # This is the crucial part: it runs our script on startup
       - ./db-init:/docker-entrypoint-initdb.d
     networks:
       - internal-patient-service-network
     healthcheck:
-      # This simpler healthcheck just confirms the server is running
       test: ["CMD-SHELL", "pg_isready -U admin_user"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  auth-service-db:
+    image: postgres:15
+    container_name: auth-service-db
+    environment:
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - auth-service-db-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - internal-patient-service-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  auth-service:
+    build:
+      context: .
+      args:
+        SERVICE_JAR_PATH: /app/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar
+    container_name: auth-service-app
+    ports:
+      - "8083:8083" # Public port for the Auth Service
+    environment:
+      SERVER_PORT: 8083
+      # --- Database Connection ---
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-service-db:5432/auth_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # --- Your JWT Secret Key ---
+      # Your Jwtutil class will read this using @Value("${jwt.secret}")
+      jwt.secret: NDBhYjI5ZTBjYjI0MzA3YjhlMGRkNTMyZGM5NzA3ZDI0NTYyN2NkY2Y5MWQ1YWUwMTE3YjExMGEwY2ZlYjkyZQ==786fa76sf786*&^%&S%$F%SR^%FRS^r6fr7dfg
+    depends_on:
+      auth-service-db:
+        condition: service_healthy
+    networks:
+      - internal-patient-service-network
 
   patient-service:
     build:
@@ -36,6 +76,8 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: create
       BILLING_SERVICE_ADDRESS: billing-service
       BILLING_SERVICE_GRPC_PORT: 9090
+      # --- THIS LINE WAS MISSING ---
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       patient-service-db:
         condition: service_healthy
@@ -58,9 +100,45 @@ services:
       SPRING_DATASOURCE_USERNAME: admin_user
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_JPA_HIBERNATE_DDL_AUTO: create
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       patient-service-db:
         condition: service_healthy
+    networks:
+      - internal-patient-service-network
+
+  analytics-service:
+    build:
+      context: .
+      args:
+        SERVICE_JAR_PATH: /app/analytics-service/target/analytics-service-0.0.1-SNAPSHOT.jar
+    container_name: analytics-service-app
+    ports:
+      - "8082:8082"
+    environment:
+      SERVER_PORT: 8082
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - internal-patient-service-network
+
+  api-gateway:
+    build:
+      context: .
+      args:
+        # Make sure this path matches the JAR file in your gateway's target folder
+        SERVICE_JAR_PATH: /app/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar
+    container_name: api-gateway-app
+    ports:
+      # This is the single public port for your entire application
+      - "4000:4000"
+    environment:
+      SERVER_PORT: 4000
+    depends_on:
+      # The gateway needs the other services to be running before it starts
+      - patient-service
+      - analytics-service
     networks:
       - internal-patient-service-network
 
