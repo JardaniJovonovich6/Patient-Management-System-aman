@@ -53,7 +53,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       # --- Your JWT Secret Key ---
       # Your Jwtutil class will read this using @Value("${jwt.secret}")
-      jwt.secret: NDBhYjI5ZTBjYjI0MzA3YjhlMGRkNTMyZGM5NzA3ZDI0NTYyN2NkY2Y5MWQ1YWUwMTE3YjExMGEwY2ZlYjkyZQ==786fa76sf786*&^%&S%$F%SR^%FRS^r6fr7dfg
+      jwt.secret: NDBhYjI5ZTBjYjI0MzA3YjhlMGRkNTMyZGM5NzA3ZDI0NTYyN2NkY2Y5MWQ1YWUwMTE3YjExMGEwY2ZlYjkyZQ==
     depends_on:
       auth-service-db:
         condition: service_healthy
@@ -134,7 +134,8 @@ services:
       # This is the single public port for your entire application
       - "4000:4000"
     environment:
-      SERVER_PORT: 4000
+      SERVER_PORT:
+      auth.service.url: http://auth-service:8083
     depends_on:
       # The gateway needs the other services to be running before it starts
       - patient-service
@@ -165,6 +166,7 @@ services:
 
 volumes:
   patient-service-db-data:
+  auth-service-db-data:
 
 networks:
   internal-patient-service-network:

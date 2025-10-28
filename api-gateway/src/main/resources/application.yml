@@ -14,6 +14,12 @@ spring:
       server:
         webflux:
           routes:
+            - id: auth-service-route
+              uri: http://auth-service:8083
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
             # --- RULE #1: Route API calls to the Patient Service ---
             - id: patient-service-api-route
               # The destination is now a direct HTTP call to the container name and its INTERNAL port
@@ -21,6 +27,8 @@ spring:
               predicates:
                 # The condition remains the same: match requests to /patients/**
                 - Path=/patients/**
+              filters:
+                - JwtValidation
 
             # --- RULE #2: Route documentation calls to the Patient Service ---
             - id: patient-service-docs-route

@@ -68,9 +68,9 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().permitAll() // We'll secure /validate later
             )
-            .headers(headers -> 
-                headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
-            );
+            .headers(headers ->
+            headers.frameOptions(frameOptions -> frameOptions.disable()) // Use disable() or customize further if needed
+        ); // <-- CORRECTED LINE (example uses disable)
 
         return http.build();
     }

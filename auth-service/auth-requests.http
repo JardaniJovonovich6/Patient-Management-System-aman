@@ -10,6 +10,8 @@ Content-Type: application/json
 }
 
 ### 2. Validate the Token
-GET http://localhost:8083/validate
+GET http://localhost:4000/auth/validate
 # This is the magic. We tell it to use the token from the request named "@loginRequest"
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc2MTQwMzIxMSwiZXhwIjoxNzYxNDM5MjExfQ.nZHKNKneM94JnfSPe-fWw7WoCC2iWEzp6_erXYk4AIWr_wU9FaxJuvZiZlzX4EeJe-B97pIt1D9UXNJUwfxadw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc2MTY0NzI1OSwiZXhwIjoxNzYxNjgzMjU5fQ.K7x37ob0NvEVheaxzx82ea5pCX8JCN9luP85H475DmpxSA9b6XNR32fe6gBJy69ilqSC5_BFAgVRLN8ItADfiw
+
+
