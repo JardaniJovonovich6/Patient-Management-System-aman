@@ -53,9 +53,9 @@ public class PatientService {
         log.info("Patient saved to database with ID: {}", newpatient.getId());
 
         // Temporarily disabled for our isolated Kafka test
-        // billingservicegrpcclient.createBillingAccount(newpatient.getId().toString(),
-        // newpatient.getName(), newpatient.getEmail());
-        // log.info("gRPC call to billing-service SKIPPED.");
+        billingservicegrpcclient.createBillingAccount(newpatient.getId().toString(),
+        newpatient.getName(), newpatient.getEmail());
+        log.info("gRPC call to billing-service SKIPPED.");
 
         // Call the Kafka Producer
         kafkaProducer.sendEvent(newpatient);

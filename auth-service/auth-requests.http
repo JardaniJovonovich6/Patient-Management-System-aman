@@ -12,6 +12,24 @@ Content-Type: application/json
 ### 2. Validate the Token
 GET http://localhost:4000/auth/validate
 # This is the magic. We tell it to use the token from the request named "@loginRequest"
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc2MTY0NzI1OSwiZXhwIjoxNzYxNjgzMjU5fQ.K7x37ob0NvEVheaxzx82ea5pCX8JCN9luP85H475DmpxSA9b6XNR32fe6gBJy69ilqSC5_BFAgVRLN8ItADfiw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc2MTY0OTc2NiwiZXhwIjoxNzYxNjg1NzY2fQ.dZfVH0vpR_P-YgLh1DKteXczvPMbFkfpLjTNwnruCyrtdQomxJNCl6v-ie0ktLQ_MFD6g2Z7k9tU0CRDZ-6WEg
 
+#Post method for patient-service
 
+POST http://localhost:4000/patients
+Content-Type: application/json
+
+{
+    "name":"Aman",
+    "email":"ashaw81766@gmail.com",
+    "adress":"234 shreet , kolkata wbs",
+    "dateofbirth":"1985-09-09",
+    "registeredDate":"2025-11-02"
+}
+
+Authorization: Bearer
+
+# Get method for patient-service
+GET http://localhost:4000/patients
+
+Authorization: Bearer 
