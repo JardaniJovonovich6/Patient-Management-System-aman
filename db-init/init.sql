@@ -1,2 +1,3 @@
 CREATE DATABASE db;
 CREATE DATABASE billing_db;
+CREATE DATABASE auth_db;

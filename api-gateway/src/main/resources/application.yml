@@ -1,0 +1,42 @@
+# 1. SERVER CONFIGURATION
+server:
+  port: 4000
+
+# 2. APPLICATION NAME
+spring:
+  application:
+    name: api-gateway
+
+  # 3. GATEWAY ROUTES CONFIGURATION
+  cloud:
+    gateway:
+      # This is the NEW, correct path for routes
+      server:
+        webflux:
+          routes:
+            - id: auth-service-route
+              uri: http://auth-service:8083
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
+            # --- RULE #1: Route API calls to the Patient Service ---
+            - id: patient-service-api-route
+              # The destination is now a direct HTTP call to the container name and its INTERNAL port
+              uri: http://patient-service:8080
+              predicates:
+                # The condition remains the same: match requests to /patients/**
+                - Path=/patients/**
+              filters:
+                - JwtValidation
+
+            # --- RULE #2: Route documentation calls to the Patient Service ---
+            - id: patient-service-docs-route
+              # The destination is also a direct HTTP call
+              uri: http://patient-service:8080
+              predicates:
+                # The condition remains the same
+                - Path=/api-docs/patients
+              filters:
+                # The action remains the same
+                - RewritePath=/api-docs/patients, /v3/api-docs

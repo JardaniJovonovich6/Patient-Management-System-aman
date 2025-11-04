@@ -1,0 +1,21 @@
+
+POST http://localhost:4000/patients
+
+Authorization: Bearer 
+Content-Type: application/json
+
+{
+    "name":"Aman",
+    "email":"ashaw81766@gmail.com",
+    "adress":"234 shreet , kolkata wbs",
+    "dateofbirth":"1985-09-09",
+    "registeredDate":"2025-11-02"
+}
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc2MTY0OTc2NiwiZXhwIjoxNzYxNjg1NzY2fQ.dZfVH0vpR_P-YgLh1DKteXczvPMbFkfpLjTNwnruCyrtdQomxJNCl6v-ie0ktLQ_MFD6g2Z7k9tU0CRDZ-6WEg
+
+# Get method for patient-service
+
+
+GET http://localhost:4000/patients
+
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyQHRlc3QuY29tIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTc2MTY0OTc2NiwiZXhwIjoxNzYxNjg1NzY2fQ.dZfVH0vpR_P-YgLh1DKteXczvPMbFkfpLjTNwnruCyrtdQomxJNCl6v-ie0ktLQ_MFD6g2Z7k9tU0CRDZ-6WEg

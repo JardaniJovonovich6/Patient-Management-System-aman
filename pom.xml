@@ -13,7 +13,7 @@
 
     <groupId>com.pm</groupId>
     <artifactId>patient-management-system</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -22,8 +22,13 @@
     </properties>
 
     <modules>
-        <module>patient-service</module>
-        <module>billing-service</module>
-    </modules>
+    <!-- V17 -->
+    <module>patient-service</module>
+    <module>billing-service</module>
+    <module>analytics-service</module>
+    <module>api-gateway</module>
+    <module>auth-service</module>
+    <module>integration-tests</module>
+    <module>infrastructure</module>  </modules>
 
 </project>
